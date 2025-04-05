@@ -1,197 +1,195 @@
-# Rest-Assured Complete Basic Example
-[![Actions Status](https://github.com/eliasnogueira/restassured-complete-basic-example/workflows/Build%20and%20Test/badge.svg)](https://github.com/eliasnogueira/restassured-complete-basic-example/actions)
+# Exemplo Básico Completo com Rest-Assured  
+[![Status das Ações](https://github.com/eliasnogueira/restassured-complete-basic-example/workflows/Build%20and%20Test/badge.svg)](https://github.com/eliasnogueira/restassured-complete-basic-example/actions)
 
-Don't forget to give this project a ⭐
+Não esqueça de deixar uma ⭐ neste projeto!
 
-* [Required Software](#required-software)
-* [How to execute the tests](#how-to-execute-the-tests)
-   * [Running the backend API](#running-the-backend-api)
-   * [Running the test suites](#running-the-test-suites)
-   * [Generating the test report](#generating-the-test-report)
-* [About the Project Structure](#about-the-project-structure)
-* [Libraries](#libraries)
-* [Patterns applied](#patterns-applied)
-* [Pipeline](#pipeline)
-* [Do you want to help?](#do-you-want-to-help)
+* [Softwares Requisitos](#softwares-requisitos)  
+* [Como executar os testes](#como-executar-os-testes)  
+   * [Executando a API backend](#executando-a-api-backend)  
+   * [Executando os test suites](#executando-os-test-suites)  
+   * [Gerando o relatório de testes](#gerando-o-relatório-de-testes)  
+* [Sobre a Estrutura do Projeto](#sobre-a-estrutura-do-projeto)  
+* [Bibliotecas](#bibliotecas)  
+* [Padrões aplicados](#padrões-aplicados)  
+* [Pipeline](#pipeline)  
+* [Quer ajudar?](#quer-ajudar)
 
-This project was created to start the initial steps with test automation for a REST API using Rest-Assured.
-It tests the API: [combined-credit-api](https://github.com/eliasnogueira/combined-credit-api)
+Este projeto foi criado para iniciar os passos iniciais com automação de testes para uma API REST utilizando o Rest-Assured.  
+Ele testa a API: [combined-credit-api](https://github.com/eliasnogueira/combined-credit-api)
 
-> :warning: **Disclaimer**
-> 
-> This project has an educational objective and does not have the best practices that could be applied
+> :warning: **Aviso**  
+>  
+> Este projeto tem objetivo educacional e **não** segue as melhores práticas que poderiam ser aplicadas.  
 >
-> Some practices will help you to improve your test architecture, but the central point of this repository and 
-> demonstrate an example of running tests for API in a pipeline
-> some practices will help you to improve your test architecture, 
-> but the central point of this repository and demonstrate an example of running tests for API in a pipeline
+> Algumas práticas vão te ajudar a melhorar sua arquitetura de testes, mas o ponto central deste repositório é demonstrar um exemplo de execução de testes para API em um pipeline.
 
-## Required software
-* Java JDK 24+
-* Maven installed and in your classpath
-* Clone/download the backend API [combined-credit-api](https://github.com/eliasnogueira/combined-credit-api)
+## Softwares Requisitos
 
-> :notebook: **Note**
->
-> You can use Java 17 if you want
+* Java JDK 24+  
+* Maven instalado e presente no seu classpath  
+* Clone/baixe a API backend [combined-credit-api](https://github.com/eliasnogueira/combined-credit-api)
 
+> :notebook: **Nota**  
+>  
+> Você pode usar o Java 17 se preferir
 
-## How to execute the tests
-You can open each test class on `src\test\java` and execute all of them, but I recommend you run it by the
-command line. It enables us to run in different test execution strategies and, also in a pipeline, that is the repo purpose.
+## Como executar os testes
 
-### Running the backend API
-Please, before executing any tests, run the backend API.
-After cloning this project:
+Você pode abrir cada classe de teste em `src\test\java` e executá-las, mas recomendo que rode pela linha de comando.  
+Isso nos permite executar em diferentes estratégias e também em pipelines, que é o propósito deste repositório.
 
-1. Navigate to the project folder using the Terminal / Command prompt
-2. Execute the following: `./mvnw spring-boot:run`
-3. Wait until you see something like this: _Application has started! Happy tests!_
-4. The API is ready and listen to all requests on `http://localhost:8088`
+### Executando a API backend
 
-### Running the test suites
+Antes de executar qualquer teste, **inicie a API backend**.  
+Após clonar o projeto:
 
-The test suites can be run directly by your IDE or by command line.
-If you run `./mvnw test` all the tests will execute because it's the regular Maven lifecycle to run all the tests.
+1. Navegue até a pasta do projeto via Terminal / Prompt de Comando  
+2. Execute: `./mvnw spring-boot:run`  
+3. Aguarde até ver algo como: _Application has started! Happy tests!_  
+4. A API estará pronta e ouvindo requisições em `http://localhost:8088`
 
-To run different suites based on the groups defined for each test you must inform the property `-Dgroups` and the group names.
-The example below shows how to run the test for each pipeline stage:
+### Executando os test suites
 
-| pipeline stage     | command                             |
-|--------------------|-------------------------------------|
-| health check tests | `./mvnw test -Dgroups="health"`     |
-| contract tests     | `./mvnw test -Dgroups="contract"`   |
-| functional tests   | `./mvnw test -Dgroups="functional"` |
-| e2e tests          | `./mvnw test -Dgroups="e2e"`        |
+Os test suites podem ser executados pela sua IDE ou pela linha de comando.  
+Se você rodar `./mvnw test`, todos os testes serão executados porque é o ciclo padrão do Maven.
 
-### Generating the test report
+Para rodar diferentes suites com base nos grupos definidos para cada teste, use a propriedade `-Dgroups` com os nomes dos grupos.  
+Exemplo para cada estágio do pipeline:
 
-This project uses Allure Report to automatically generate the test report.
-There are some configuration to make it happen:
-* aspectj configuration on `pom.xml` file
-* `allure.properties` file on `src/test/resources`
+| estágio do pipeline  | comando                                 |
+|----------------------|------------------------------------------|
+| health check tests   | `./mvnw test -Dgroups="health"`          |
+| testes de contrato   | `./mvnw test -Dgroups="contract"`        |
+| testes funcionais    | `./mvnw test -Dgroups="functional"`      |
+| testes e2e           | `./mvnw test -Dgroups="e2e"`             |
 
-You can use the command line to generate it in two ways:
-* `./mvnw allure:serve`: will open the HTML report into the browser
-* `./mvnw allure:report`: will generate the HTML port at `target/site/allure-maven-plugin` folder
+### Gerando o relatório de testes
 
-## About the Project Structure
+Este projeto utiliza o **Allure Report** para gerar os relatórios automaticamente.  
+Há algumas configurações para isso acontecer:
+
+* configuração `aspectj` no arquivo `pom.xml`  
+* arquivo `allure.properties` em `src/test/resources`
+
+Você pode gerar o relatório via linha de comando de duas formas:
+
+* `./mvnw allure:serve`: abre o relatório HTML diretamente no navegador  
+* `./mvnw allure:report`: gera o HTML na pasta `target/site/allure-maven-plugin`
+
+## Sobre a Estrutura do Projeto
 
 ### src/main/java
 
-#### test
-Base Test that sets the initial aspects to make the requests using RestAssured.
-It also has the configuration to deal with `BigDecimal` returns and SSL configuration.
+#### test  
+Classe base de testes que define os aspectos iniciais para fazer requisições com RestAssured.  
+Também configura o tratamento de retornos com `BigDecimal` e configurações de SSL.
 
-#### client
-Classes that do some actions in their endpoints. It's used my the `FullSimulationE2ETest` to demonstrate and e2e
-scenario.
+#### client  
+Classes que executam ações em seus respectivos endpoints. Usadas no `FullSimulationE2ETest` para demonstrar um cenário e2e.
 
-#### commons
-It contains a class where will format the URL expected when we create a new resource in the `simulation` endpoint.
-You can add any class that can be used in the project.
+#### commons  
+Contém uma classe que formata a URL esperada ao criar um novo recurso no endpoint `simulation`.  
+Você pode adicionar classes reutilizáveis aqui.
 
-#### config
-The class `Configuration` is the connections between the property file `api.properties` located in `src/test/resources/`.
+#### config  
+A classe `Configuration` faz a conexão com o arquivo `api.properties` localizado em `src/test/resources/`.
 
-The `@Config.Sources` load the properties file and match the attributes with the `@Key`, so you automatically have the value.
-You can see two sources.
-The first one will get the property values from the system (as environment variables or from the command line) in the case you want to change it, for example, in a pipeline.
-The second will load the `api.properties` file from the classpath.
+O `@Config.Sources` carrega o arquivo de propriedades e associa os atributos com `@Key`, recuperando os valores automaticamente.  
+Você verá duas fontes:
 ```java
 @Config.Sources({
     "system:properties",
     "classpath:api.properties"})
 ```
 
-The environment variable is read on the `ConfiguratorManager`.
-This class reduces the amount of code necessary to get any information on the properties file.
+A variável de ambiente é lida pela classe `ConfiguratorManager`, que reduz a quantidade de código para acessar informações do arquivo de propriedades.
 
-This strategy uses [Owner](https://matteobaccan.github.io/owner/) library
+Essa estratégia usa a biblioteca [Owner](https://matteobaccan.github.io/owner/)
 
 #### data
 
-##### factory
-Test Data Factory classes using [java-faker](https://github.com/DiUS/java-faker) to generate fake data and [Lombok] to
-create the objects using the Builder pattern.
+##### factory  
+Classes de Fábrica de Dados de Teste usando [java-faker](https://github.com/DiUS/java-faker) para gerar dados falsos, e [Lombok] com o padrão Builder.
 
-In a few cases, there are custom data like:
- * the list of existent restrictions and simulations in the database
- * cpf generation
- * data generation returned by the API use
+Em alguns casos, há dados personalizados como:
+ * lista de restrições e simulações existentes
+ * geração de CPF
+ * dados retornados pela API
 
-##### provider
-JUnit 5 Arguments to reduce the amount of code and maintenance for the functional tests on `SimulationsFunctionalTest`
+##### provider  
+Arguments do JUnit 5 para reduzir código e manutenção nos testes funcionais em `SimulationsFunctionalTest`.
 
-##### suite
-It contains a class having the data related to the test groups.
+##### suite  
+Contém uma classe com os dados relacionados aos grupos de testes.
 
-##### support
-Custom CPF (social security number) generator.
+##### support  
+Gerador personalizado de CPF.
 
-#### model
-Model and Builder class to
-[mapping objects thought serialization and deserialization](https://github.com/rest-assured/rest-assured/wiki/Usage#object-mapping) 
-in use with Rest-Assured.
+#### model  
+Classe de modelo e builder para [mapear objetos via serialização e desserialização](https://github.com/rest-assured/rest-assured/wiki/Usage#object-mapping) com uso do Rest-Assured.
 
-#### specs
-Request and Response specifications used by the clients and e2e tests.
-The class `InitialStepsSpec` set the basePath, baseURI, and port for the custom specs.
-The classes `RestrictionsSpecs` and `SimulationsSpecs` contains the implementation of request and response specifications.
+#### specs  
+Especificações de requisição e resposta usadas pelos clients e testes e2e.  
+A classe `InitialStepsSpec` define `basePath`, `baseURI` e `port` para as specs.  
+As classes `RestrictionsSpecs` e `SimulationsSpecs` contêm as implementações das specs.
 
 ### src/test/java
 
-#### e2e
-End-to-End test using both endpoints to simulate the user journey thought the API.
+#### e2e  
+Teste End-to-End usando ambos os endpoints para simular a jornada do usuário pela API.
 
-#### general
-Health check test to assure the endpoint is available.
+#### general  
+Teste de health check para garantir que o endpoint está disponível.
 
-#### restrictions
-Contract and Functional tests to the Restriction endpoint.
+#### restrictions  
+Testes de contrato e funcionais para o endpoint de restrições.
 
-#### simulations
-Contract and Functional tests to the Simulations endpoint
+#### simulations  
+Testes de contrato e funcionais para o endpoint de simulações.
 
-### src/test/resources
-It has a `schemas` folder with the JSON Schemas to enable Contract Testing using Rest-Assured. Also, the properties file to easily configure the API URI.
+### src/test/resources  
+Contém a pasta `schemas` com os JSON Schemas usados nos testes de contrato.  
+Também o arquivo de propriedades para configurar facilmente a URI da API.
 
-## Libraries
-* [RestAssured](http://rest-assured.io/) library to test REST APIs
-* [JUnit 5](https://junit.org/junit5/) to support the test creation
-* [Owner](https://matteobaccan.github.io/owner/) to manage the property files
-* [java-faker](https://github.com/DiUS/java-faker) to generate fake data
-* [Log4J2](https://logging.apache.org/log4j/2.x/) as the logging strategy
-* [Allure Report](https://docs.qameta.io/allure/) as the testing report strategy
+## Bibliotecas
 
-## Patterns applied
-* Test Data Factory
-* Data Provider
-* Builder
-* Request and Response Specification
-* Base Test
+* [RestAssured](http://rest-assured.io/) – testar APIs REST  
+* [JUnit 5](https://junit.org/junit5/) – suporte aos testes  
+* [Owner](https://matteobaccan.github.io/owner/) – gerenciamento de arquivos de propriedades  
+* [java-faker](https://github.com/DiUS/java-faker) – geração de dados fictícios  
+* [Log4J2](https://logging.apache.org/log4j/2.x/) – estratégia de logging  
+* [Allure Report](https://docs.qameta.io/allure/) – estratégia de relatório de testes
+
+## Padrões aplicados
+
+* Fábrica de Dados de Teste (Test Data Factory)  
+* Provedor de Dados (Data Provider)  
+* Builder  
+* Especificações de Requisição e Resposta  
+* Teste Base (Base Test)
 
 ## Pipeline
 
-This project uses [GitHub Actions](https://github.com/features/actions) to run the all the tests in a pipeline.
-You can find it at https://github.com/eliasnogueira/restassured-complete-basic-example/blob/master/.github/workflows/test-execution.yml
+Este projeto usa o [GitHub Actions](https://github.com/features/actions) para executar todos os testes em um pipeline.  
+Você pode ver o arquivo em: https://github.com/eliasnogueira/restassured-complete-basic-example/blob/master/.github/workflows/test-execution.yml
 
-We have the following pipeline steps:
+Etapas do pipeline:
 ```
-build -> health check -> contract -> e2d -> funcional 
+build -> health check -> contract -> e2e -> funcional
 ```
 
-Except the build, that is the traditional Maven build, the other stages has some parameters to determine the test type and the SUT (System Under Test).
-The parameters are:
-* `-Dgroups`: specify which test type will be executed
-* `-Dapi.base.uri`: specify a new base URI
-* `-Dapi.base.path`: specify a new base path
-* `-Dapi.port`: specify a new port
-* `-Dapi.health.context`: specify a new health context
+Exceto pelo build (build padrão do Maven), os outros estágios usam parâmetros para determinar o tipo de teste e o SUT (Sistema sob Teste).  
+Parâmetros usados:
 
-All the parameters, except the `-Dgroups` are pointing to Heroku because we can't run it locally.
-It's a great example about how can you set different attribute values to run your tests.
+* `-Dgroups`: especifica o tipo de teste  
+* `-Dapi.base.uri`: define uma nova base URI  
+* `-Dapi.base.path`: define um novo base path  
+* `-Dapi.port`: define uma nova porta  
+* `-Dapi.health.context`: define um novo contexto de health check
 
-## Do you want to help?
+Todos os parâmetros (exceto `-Dgroups`) apontam para o Heroku, pois não conseguimos rodar localmente.  
+É um ótimo exemplo de como configurar valores diferentes para rodar seus testes.
 
-Please read the [Contribution guide](CONTRIBUTING.md)
+## Quer ajudar?
+
+Por favor, leia o [guia de contribuição](CONTRIBUTING.md)
